@@ -8,6 +8,8 @@ import * as deletePasswordResetToken from './delete-password-reset-token';
 import * as deleteSession from './delete-session';
 import * as deleteUser from './delete-user';
 import * as deleteUserSessions from './delete-user-sessions';
+import * as getAuth from './get-auth';
+import * as getAuthOrRedirect from './get-auth-or-redirect';
 import * as getEmailVerificationToken from './get-email-verification-token';
 import * as getPasswordResetToken from './get-password-reset-token';
 import * as getSession from './get-session';
@@ -25,6 +27,8 @@ export const authData = {
   ...deleteSession,
   ...deleteUser,
   ...deleteUserSessions,
+  ...getAuth,
+  ...getAuthOrRedirect,
   ...getEmailVerificationToken,
   ...getPasswordResetToken,
   ...getSession,

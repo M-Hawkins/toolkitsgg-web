@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { cache } from 'react';
+import { getAuth } from '@/features/auth/data/get-auth';
 import { emailVerificationPath, signInPath } from '@/paths';
-import { getAuth } from './get-auth';
 
 type GetAuthOrRedirectOptions = {
   checkEmailVerified?: boolean;

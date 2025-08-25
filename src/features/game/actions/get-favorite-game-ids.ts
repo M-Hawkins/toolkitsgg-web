@@ -2,11 +2,11 @@
 
 import type { GameId } from '@prisma/client';
 import { formUtils } from '@/components/form/utils';
-import { getAuth } from '@/features/auth/queries/get-auth';
+import { authData } from '@/features/auth/data';
 import { gameData } from '@/features/game/data';
 
 export const getFavoriteGameIds = async (): Promise<GameId[]> => {
-  const { user } = await getAuth();
+  const { user } = await authData.getAuth();
   if (!user) {
     return [];
   }

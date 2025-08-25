@@ -9,7 +9,6 @@ import { authData } from '@/features/auth/data';
 import { createSession } from '@/lib/lucia';
 import { homePath } from '@/paths';
 import { generateRandomToken } from '@/utils/crypto';
-import { getAuthOrRedirect } from '../queries/get-auth-or-redirect';
 import { setSessionCookie } from '../utils/session-cookie';
 import { validateEmailVerificationCode } from '../utils/validate-email-verification-code';
 
@@ -21,7 +20,7 @@ export const emailVerification = async (
   _actionState: ActionState,
   formData: FormData
 ) => {
-  const { user } = await getAuthOrRedirect({
+  const { user } = await authData.getAuthOrRedirect({
     checkEmailVerified: false,
   });
 

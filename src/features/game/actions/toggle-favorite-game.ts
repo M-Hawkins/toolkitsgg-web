@@ -4,14 +4,14 @@ import type { GameId } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import type { ActionState } from '@/components/form/types';
 import { formUtils } from '@/components/form/utils';
-import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
+import { authData } from '@/features/auth/data';
 import { gameData } from '@/features/game/data';
 import { gameUtils } from '@/features/game/utils';
 
 export const toggleFavoriteGame = async (
   gameId: GameId
 ): Promise<ActionState> => {
-  const { user } = await getAuthOrRedirect();
+  const { user } = await authData.getAuthOrRedirect();
   if (!user) {
     throw new Error('User not authenticated');
   }

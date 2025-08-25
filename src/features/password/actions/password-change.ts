@@ -4,7 +4,6 @@ import { z } from 'zod';
 import type { ActionState } from '@/components/form/types';
 import { formUtils } from '@/components/form/utils';
 import { authData } from '@/features/auth/data';
-import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { inngest } from '@/lib/inngest';
 import { verifyPasswordHash } from '../utils/hash-and-verify';
 
@@ -16,7 +15,7 @@ export const passwordChange = async (
   _actionState: ActionState,
   formData: FormData
 ) => {
-  const auth = await getAuthOrRedirect();
+  const auth = await authData.getAuthOrRedirect();
 
   try {
     const { password } = passwordChangeSchema.parse({

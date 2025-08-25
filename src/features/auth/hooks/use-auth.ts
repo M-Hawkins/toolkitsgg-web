@@ -2,8 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { authData } from '@/features/auth/data';
 import type { UserWithProfile } from '@/features/auth/types';
-import { getAuth } from '../queries/get-auth';
 
 const useAuth = () => {
   const [user, setUser] = useState<UserWithProfile>(null);
@@ -13,7 +13,7 @@ const useAuth = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { user } = await getAuth();
+      const { user } = await authData.getAuth();
       setUser(user);
       setFetched(true);
     };
