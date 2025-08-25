@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import type { ActionState } from '@/components/form/types';
 import { formUtils } from '@/components/form/utils';
-import { authData } from '@/features/auth/data';
+import { createUser } from '@/features/auth/data/create-user';
 import { hashPassword } from '@/features/password/utils/hash-and-verify';
 import { inngest } from '@/lib/inngest';
 import { createSession } from '@/lib/lucia';
@@ -45,7 +45,7 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
 
     const passwordHash = await hashPassword(password);
 
-    const user = await authData.createUser({
+    const user = await createUser({
       username,
       email,
       passwordHash,

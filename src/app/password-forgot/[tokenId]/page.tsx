@@ -1,6 +1,6 @@
 import { Flex, Paper } from '@mantine/core';
 import { PageLayout } from '@/components/PageLayout';
-import { authData } from '@/features/auth/data';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import { PasswordResetForm } from '@/features/password/components/PasswordResetForm';
 import classes from './Page.module.css';
 
@@ -13,7 +13,7 @@ type PasswordResetPageProps = {
 export default async function PasswordResetPage({
   params,
 }: PasswordResetPageProps) {
-  const session = await authData.getAuth();
+  const session = await getAuth();
   const user = session?.user;
 
   const { tokenId } = await params;

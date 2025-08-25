@@ -1,10 +1,10 @@
 import 'server-only';
 import type { GameId } from '@prisma/client';
-import { authData } from '@/features/auth/data';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import prisma from '@/lib/prisma';
 
 export const getFavoriteGameIds = async (): Promise<GameId[]> => {
-  const { user } = await authData.getAuth();
+  const { user } = await getAuth();
   if (!user) {
     return [];
   }

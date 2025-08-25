@@ -1,11 +1,11 @@
-import { authData } from '@/features/auth/data';
+import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import type { GameDataUtils } from '@/features/game/types';
 import prisma from '@/lib/prisma';
 
 export const toggleCollectedItem = async (
   itemSlug: string
 ): ReturnType<GameDataUtils['toggleCollectedItem']> => {
-  const { user } = await authData.getAuthOrRedirect();
+  const { user } = await getAuthOrRedirect();
   if (!user) {
     throw new Error('User not authenticated');
   }

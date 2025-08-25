@@ -1,12 +1,12 @@
 import 'server-only';
 import type { GameId } from '@prisma/client';
-import { authData } from '@/features/auth/data';
+import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import prisma from '@/lib/prisma';
 
 export const toggleFavoriteGame = async (
   gameId: GameId
 ): Promise<{ existingFavorite: boolean }> => {
-  const { user } = await authData.getAuthOrRedirect();
+  const { user } = await getAuthOrRedirect();
   if (!user) {
     throw new Error('User not authenticated');
   }

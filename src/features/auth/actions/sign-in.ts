@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import type { ActionState } from '@/components/form/types';
 import { formUtils } from '@/components/form/utils';
-import { authData } from '@/features/auth/data';
+import { getUser } from '@/features/auth/queries/get-user';
 import { verifyPasswordHash } from '@/features/password/utils/hash-and-verify';
 import { createSession } from '@/lib/lucia';
 import { homePath } from '@/paths';
@@ -22,7 +22,7 @@ export const signIn = async (_actionState: ActionState, formData: FormData) => {
       Object.fromEntries(formData)
     );
 
-    const user = await authData.getUser({
+    const user = await getUser({
       userEmail: email,
       options: {
         omitPasswordHash: false,

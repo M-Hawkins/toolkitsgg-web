@@ -1,8 +1,8 @@
-import { authData } from '@/features/auth/data';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import prisma from '@/lib/prisma';
 
 export const getCollectedItemSlugs = async (): Promise<string[]> => {
-  const { user } = await authData.getAuth();
+  const { user } = await getAuth();
   if (!user) {
     return [];
   }

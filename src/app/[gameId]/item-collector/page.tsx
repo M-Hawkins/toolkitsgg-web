@@ -1,5 +1,5 @@
 import { PageLayout } from '@/components/PageLayout';
-import { authData } from '@/features/auth/data';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import { gameUtils } from '@/features/game/utils';
 
 type ItemCollectorPageProps = {
@@ -9,7 +9,7 @@ type ItemCollectorPageProps = {
 export default async function ItemCollectorPage({
   params,
 }: ItemCollectorPageProps) {
-  const session = await authData.getAuth();
+  const session = await getAuth();
   const user = session?.user;
 
   const { gameId } = await params;

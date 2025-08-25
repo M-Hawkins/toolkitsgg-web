@@ -1,13 +1,13 @@
 'use server';
 
 import { formUtils } from '@/components/form/utils';
-import { authData } from '@/features/auth/data';
+import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { sendEmailVerification } from '../emails/send-email-verification';
 import { canResendVerificationEmail } from '../utils/can-resend-verification-email';
 import { generateEmailVerificationCode } from '../utils/generate-email-verification-code';
 
 export const emailVerificationResend = async () => {
-  const { user } = await authData.getAuthOrRedirect({
+  const { user } = await getAuthOrRedirect({
     checkEmailVerified: false,
   });
 

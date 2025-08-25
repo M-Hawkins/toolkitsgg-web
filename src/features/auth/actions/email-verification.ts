@@ -5,7 +5,9 @@ import { z } from 'zod';
 import { setCookieByKey } from '@/actions/cookies';
 import type { ActionState } from '@/components/form/types';
 import { formUtils } from '@/components/form/utils';
-import { authData } from '@/features/auth/data';
+import { deleteUserSessions } from '@/features/auth/data/delete-user-sessions';
+import { updateUser } from '@/features/auth/data/update-user';
+import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
 import { createSession } from '@/lib/lucia';
 import { homePath } from '@/paths';
 import { generateRandomToken } from '@/utils/crypto';
@@ -20,7 +22,7 @@ export const emailVerification = async (
   _actionState: ActionState,
   formData: FormData
 ) => {
-  const { user } = await authData.getAuthOrRedirect({
+  const { user } = await getAuthOrRedirect({
     checkEmailVerified: false,
   });
 
@@ -42,9 +44,9 @@ export const emailVerification = async (
       });
     }
 
-    await authData.deleteUserSessions({ userId: user.id });
+    await deleteUserSessions({ userId: user.id });
 
-    await authData.updateUser({
+    await updateUser({
       userId: user.id,
       data: { emailVerified: true },
     });

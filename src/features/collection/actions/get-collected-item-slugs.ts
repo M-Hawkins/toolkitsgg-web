@@ -1,13 +1,13 @@
 'use server';
 
 import { formUtils } from '@/components/form/utils';
-import { authData } from '@/features/auth/data';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import type { GameConfig } from '@/features/game/types';
 
 export const getCollectedItemSlugs = async (
   gameConfig: GameConfig<unknown>
 ): Promise<string[]> => {
-  const { user } = await authData.getAuth();
+  const { user } = await getAuth();
   if (!user) {
     return [];
   }

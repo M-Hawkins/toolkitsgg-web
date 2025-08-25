@@ -1,11 +1,11 @@
 import { Flex, Paper } from '@mantine/core';
 import { PageLayout } from '@/components/PageLayout';
 import { SignUpForm } from '@/features/auth/components/SignUpForm';
-import { authData } from '@/features/auth/data';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import classes from './Page.module.css';
 
 export default async function SignUpPage() {
-  const session = await authData.getAuth();
+  const session = await getAuth();
   const user = session?.user;
 
   return (

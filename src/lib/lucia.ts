@@ -1,4 +1,8 @@
-import { authData } from '@/features/auth/data';
+import { createUserSession } from '@/features/auth/data/create-user-session';
+import { deleteSession } from '@/features/auth/data/delete-session';
+import { updateSession } from '@/features/auth/data/update-session';
+import { getSession } from '@/features/auth/queries/get-session';
+import { getUser } from '@/features/auth/queries/get-user';
 import { hashToken } from '@/utils/crypto';
 
 const SESSION_REFRESH_INTERVAL_MS = 1000 * 60 * 60 * 24 * 15; // 15 days
@@ -13,7 +17,7 @@ export const createSession = async (sessionToken: string, userId: string) => {
     expiresAt: new Date(Date.now() + SESSION_MAX_DURATION_MS),
   };
 
-  await authData.createUserSession(session);
+  await createUserSession(session);
 
   return session;
 };
@@ -21,7 +25,7 @@ export const createSession = async (sessionToken: string, userId: string) => {
 export const validateSession = async (sessionToken: string) => {
   const sessionId = hashToken(sessionToken);
 
-  const result = await authData.getSession({
+  const result = await getSession({
     sessionId,
     options: {
       includeUser: true,
@@ -34,7 +38,7 @@ export const validateSession = async (sessionToken: string) => {
 
   const { user, ...session } = result;
 
-  const userProfileResult = await authData.getUser({
+  const userProfileResult = await getUser({
     userId: user.id,
     options: { includeUserProfile: true },
   });
@@ -43,7 +47,7 @@ export const validateSession = async (sessionToken: string) => {
 
   // if the session is expired, delete it
   if (Date.now() >= session.expiresAt.getTime()) {
-    await authData.deleteSession({ sessionId });
+    await deleteSession({ sessionId });
 
     return { session: null, user: null };
   }
@@ -52,7 +56,7 @@ export const validateSession = async (sessionToken: string) => {
   if (Date.now() >= session.expiresAt.getTime() - SESSION_REFRESH_INTERVAL_MS) {
     session.expiresAt = new Date(Date.now() + SESSION_MAX_DURATION_MS);
 
-    await authData.updateSession({
+    await updateSession({
       sessionId,
       data: {
         expiresAt: session.expiresAt,
@@ -71,5 +75,5 @@ export const validateSession = async (sessionToken: string) => {
 };
 
 export const invalidateSession = async (sessionId: string) => {
-  await authData.deleteSession({ sessionId });
+  await deleteSession({ sessionId });
 };

@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { authData } from '@/features/auth/data';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import type { UserWithProfile } from '@/features/auth/types';
 
 const useAuth = () => {
@@ -13,7 +13,7 @@ const useAuth = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { user } = await authData.getAuth();
+      const { user } = await getAuth();
       setUser(user);
       setFetched(true);
     };

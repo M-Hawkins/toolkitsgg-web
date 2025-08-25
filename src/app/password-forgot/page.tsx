@@ -1,11 +1,11 @@
 import { Flex, Paper } from '@mantine/core';
 import { PageLayout } from '@/components/PageLayout';
-import { authData } from '@/features/auth/data';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import { PasswordForgotForm } from '@/features/password/components/PasswordForgotForm';
 import classes from './Page.module.css';
 
 export default async function PasswordForgotPage() {
-  const session = await authData.getAuth();
+  const session = await getAuth();
   const user = session?.user;
 
   return (

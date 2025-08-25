@@ -1,5 +1,5 @@
 import { PageLayout } from '@/components/PageLayout';
-import { authData } from '@/features/auth/data';
+import { getAuth } from '@/features/auth/queries/get-auth';
 import { gameUtils } from '@/features/game/utils';
 
 type ItemLookupPageProps = {
@@ -10,7 +10,7 @@ export default async function ItemLookupPage({ params }: ItemLookupPageProps) {
   const { gameId } = await params;
   const isGameIdValid = gameUtils.isGameId(gameId);
 
-  const session = await authData.getAuth();
+  const session = await getAuth();
   const user = session?.user;
 
   if (!isGameIdValid) {

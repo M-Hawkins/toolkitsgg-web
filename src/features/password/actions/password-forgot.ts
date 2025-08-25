@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import type { ActionState } from '@/components/form/types';
 import { formUtils } from '@/components/form/utils';
-import { authData } from '@/features/auth/data';
+import { getUser } from '@/features/auth/queries/get-user';
 import { inngest } from '@/lib/inngest';
 
 const passwordForgotSchema = z.object({
@@ -19,7 +19,7 @@ export const passwordForgot = async (
       email: formData.get('email'),
     });
 
-    const user = await authData.getUser({
+    const user = await getUser({
       userEmail: email,
     });
 

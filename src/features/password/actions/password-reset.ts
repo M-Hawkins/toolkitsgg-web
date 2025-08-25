@@ -5,7 +5,10 @@ import { z } from 'zod';
 import { setCookieByKey } from '@/actions/cookies';
 import type { ActionState } from '@/components/form/types';
 import { formUtils } from '@/components/form/utils';
-import { authData } from '@/features/auth/data';
+import { deletePasswordResetToken } from '@/features/auth/data/delete-password-reset-token';
+import { deleteUserSessions } from '@/features/auth/data/delete-user-sessions';
+import { updateUser } from '@/features/auth/data/update-user';
+import { getPasswordResetToken } from '@/features/auth/queries/get-password-reset-token';
 import { signInPath } from '@/paths';
 import { hashToken } from '@/utils/crypto';
 import { hashPassword } from '../utils/hash-and-verify';
@@ -38,12 +41,12 @@ export const passwordReset = async (
 
     const tokenHash = hashToken(tokenId);
 
-    const passwordResetToken = await authData.getPasswordResetToken({
+    const passwordResetToken = await getPasswordResetToken({
       tokenHash,
     });
 
     if (passwordResetToken) {
-      await authData.deletePasswordResetToken({
+      await deletePasswordResetToken({
         tokenHash: passwordResetToken.tokenHash,
       });
     }
@@ -59,13 +62,13 @@ export const passwordReset = async (
       });
     }
 
-    await authData.deleteUserSessions({
+    await deleteUserSessions({
       userId: passwordResetToken.userId,
     });
 
     const passwordHash = await hashPassword(password);
 
-    await authData.updateUser({
+    await updateUser({
       userId: passwordResetToken.userId,
       data: {
         passwordHash,

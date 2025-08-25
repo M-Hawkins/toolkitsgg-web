@@ -4,14 +4,14 @@ import type { GameId } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import type { ActionState } from '@/components/form/types';
 import { formUtils } from '@/components/form/utils';
-import { authData } from '@/features/auth/data';
-import { gameData } from '@/features/game/data';
+import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
+import { toggleFavoriteGame as toggleFavoriteGameData } from '@/features/game/data/toggle-favorite-game';
 import { gameUtils } from '@/features/game/utils';
 
 export const toggleFavoriteGame = async (
   gameId: GameId
 ): Promise<ActionState> => {
-  const { user } = await authData.getAuthOrRedirect();
+  const { user } = await getAuthOrRedirect();
   if (!user) {
     throw new Error('User not authenticated');
   }
@@ -21,7 +21,7 @@ export const toggleFavoriteGame = async (
   }
 
   try {
-    const { existingFavorite } = await gameData.toggleFavoriteGame(gameId);
+    const { existingFavorite } = await toggleFavoriteGameData(gameId);
 
     revalidatePath(`/${gameId}`);
     return formUtils.toActionState({
