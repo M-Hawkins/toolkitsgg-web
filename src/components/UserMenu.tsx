@@ -26,7 +26,7 @@ import { Form } from '@/components/form/Form';
 import { SubmitButton } from '@/components/form/SubmitButton';
 import { signOut } from '@/features/auth/actions/sign-out';
 import type { UserWithProfile } from '@/features/auth/types';
-import { signInPath, signUpPath } from '@/paths';
+import { accountProfilePath, signInPath, signUpPath } from '@/paths';
 import classes from './UserMenu.module.css';
 
 // TODO: Add paths to the user items
@@ -140,7 +140,8 @@ const UserMenu = ({ user }: UserMenuProps) => {
           <Menu.Label>Settings</Menu.Label>
           <Menu.Item
             leftSection={<IconSettings size={16} stroke={1.5} />}
-            disabled
+            component={Link}
+            href={accountProfilePath()}
           >
             Account settings
           </Menu.Item>

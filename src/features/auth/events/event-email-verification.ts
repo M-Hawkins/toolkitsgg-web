@@ -1,4 +1,4 @@
-import { authData } from '@/features/auth/data';
+import { authQueries } from '@/features/auth/queries';
 import { inngest } from '@/lib/inngest';
 import { sendEmailVerification } from '../emails/send-email-verification';
 import { generateEmailVerificationCode } from '../utils/generate-email-verification-code';
@@ -15,7 +15,7 @@ export const emailVerificationEvent = inngest.createFunction(
   async ({ event }) => {
     const { userId } = event.data;
 
-    const user = await authData.getUser({
+    const user = await authQueries.getUser({
       userId,
     });
 

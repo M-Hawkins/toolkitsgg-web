@@ -1,8 +1,8 @@
 import { PageLayout } from '@/components/PageLayout';
-import { getAuth } from '@/features/auth/queries/get-auth';
+import { authQueries } from '@/features/auth/queries';
 
 export default async function HomePage() {
-  const session = await getAuth();
+  const session = await authQueries.getAuth();
   const user = session?.user;
 
   return (

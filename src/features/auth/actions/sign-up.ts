@@ -4,8 +4,8 @@ import { Prisma } from '@prisma/client';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import type { ActionState } from '@/components/form/types';
-import { formUtils } from '@/components/form/utils';
-import { authData } from '@/features/auth/data';
+import { fromErrorToActionState, toActionState } from '@/components/form/utils';
+import { authMutations } from '@/features/auth/mutations';
 import { hashPassword } from '@/features/password/utils/hash-and-verify';
 import { inngest } from '@/lib/inngest';
 import { createSession } from '@/lib/lucia';
@@ -45,7 +45,7 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
 
     const passwordHash = await hashPassword(password);
 
-    const user = await authData.createUser({
+    const user = await authMutations.createUser({
       username,
       email,
       passwordHash,
@@ -67,14 +67,14 @@ export const signUp = async (_actionState: ActionState, formData: FormData) => {
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code === 'P2002'
     ) {
-      return formUtils.toActionState({
+      return toActionState({
         status: 'ERROR',
         message: 'Either email or username is already in use',
         formData,
       });
     }
 
-    return formUtils.fromErrorToActionState({ error, formData });
+    return fromErrorToActionState({ error, formData });
   }
 
   redirect(homePath());

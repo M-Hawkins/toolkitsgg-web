@@ -1,18 +1,16 @@
 import { PageLayout } from '@/components/PageLayout';
-import { getAuth } from '@/features/auth/queries/get-auth';
+import { authQueries } from '@/features/auth/queries';
 import { gameUtils } from '@/features/game/utils';
 
 type ItemLookupPageProps = {
   params: Promise<{ gameId: string }>;
 };
 
-export default async function ItemCollectorPage({
-  params,
-}: ItemLookupPageProps) {
+export default async function ItemLookupPage({ params }: ItemLookupPageProps) {
   const { gameId } = await params;
   const isGameIdValid = gameUtils.isGameId(gameId);
 
-  const session = await getAuth();
+  const session = await authQueries.getAuth();
   const user = session?.user;
 
   if (!isGameIdValid) {

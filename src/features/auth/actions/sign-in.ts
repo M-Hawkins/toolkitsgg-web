@@ -3,8 +3,8 @@
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import type { ActionState } from '@/components/form/types';
-import { formUtils } from '@/components/form/utils';
-import { authData } from '@/features/auth/data';
+import { fromErrorToActionState, toActionState } from '@/components/form/utils';
+import { authQueries } from '@/features/auth/queries';
 import { verifyPasswordHash } from '@/features/password/utils/hash-and-verify';
 import { createSession } from '@/lib/lucia';
 import { homePath } from '@/paths';
@@ -22,7 +22,7 @@ export const signIn = async (_actionState: ActionState, formData: FormData) => {
       Object.fromEntries(formData)
     );
 
-    const user = await authData.getUser({
+    const user = await authQueries.getUser({
       userEmail: email,
       options: {
         omitPasswordHash: false,
@@ -35,7 +35,7 @@ export const signIn = async (_actionState: ActionState, formData: FormData) => {
     );
 
     if (!user || !validPassword) {
-      return formUtils.toActionState({
+      return toActionState({
         status: 'ERROR',
         message: 'Incorrect email or password',
         formData,
@@ -47,7 +47,7 @@ export const signIn = async (_actionState: ActionState, formData: FormData) => {
 
     await setSessionCookie(sessionToken, session.expiresAt);
   } catch (error) {
-    return formUtils.fromErrorToActionState({ error, formData });
+    return fromErrorToActionState({ error, formData });
   }
 
   redirect(homePath());
