@@ -1,13 +1,13 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { getAuth } from '@/features/auth/queries/get-auth';
+import { authQueries } from '@/features/auth/queries';
 import { invalidateSession } from '@/lib/lucia';
 import { signInPath } from '@/paths';
 import { deleteSessionCookie } from '../utils/session-cookie';
 
 export const signOut = async () => {
-  const { session } = await getAuth();
+  const { session } = await authQueries.getAuth();
 
   if (!session) {
     redirect(signInPath());

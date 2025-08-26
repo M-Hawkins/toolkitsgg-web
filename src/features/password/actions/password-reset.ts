@@ -4,11 +4,9 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { setCookieByKey } from '@/actions/cookies';
 import type { ActionState } from '@/components/form/types';
-import { formUtils } from '@/components/form/utils';
-import { deletePasswordResetToken } from '@/features/auth/data/delete-password-reset-token';
-import { deleteUserSessions } from '@/features/auth/data/delete-user-sessions';
-import { updateUser } from '@/features/auth/data/update-user';
-import { getPasswordResetToken } from '@/features/auth/queries/get-password-reset-token';
+import { fromErrorToActionState, toActionState } from '@/components/form/utils';
+import { authMutations } from '@/features/auth/mutations';
+import { authQueries } from '@/features/auth/queries';
 import { signInPath } from '@/paths';
 import { hashToken } from '@/utils/crypto';
 import { hashPassword } from '../utils/hash-and-verify';
@@ -41,12 +39,12 @@ export const passwordReset = async (
 
     const tokenHash = hashToken(tokenId);
 
-    const passwordResetToken = await getPasswordResetToken({
+    const passwordResetToken = await authQueries.getPasswordResetToken({
       tokenHash,
     });
 
     if (passwordResetToken) {
-      await deletePasswordResetToken({
+      await authMutations.deletePasswordResetToken({
         tokenHash: passwordResetToken.tokenHash,
       });
     }
@@ -55,27 +53,27 @@ export const passwordReset = async (
       !passwordResetToken ||
       Date.now() > passwordResetToken.expiresAt.getTime()
     ) {
-      return formUtils.toActionState({
+      return toActionState({
         status: 'ERROR',
         message: 'Expired or invalid verification token',
         formData,
       });
     }
 
-    await deleteUserSessions({
+    await authMutations.deleteUserSessions({
       userId: passwordResetToken.userId,
     });
 
     const passwordHash = await hashPassword(password);
 
-    await updateUser({
+    await authMutations.updateUser({
       userId: passwordResetToken.userId,
       data: {
         passwordHash,
       },
     });
   } catch (error) {
-    return formUtils.fromErrorToActionState({ error, formData });
+    return fromErrorToActionState({ error, formData });
   }
 
   await setCookieByKey('toast', 'Successfully reset password');

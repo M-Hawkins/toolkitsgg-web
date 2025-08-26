@@ -4,15 +4,14 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { setCookieByKey } from '@/actions/cookies';
 import type { ActionState } from '@/components/form/types';
-import { formUtils } from '@/components/form/utils';
-import { deleteUserSessions } from '@/features/auth/data/delete-user-sessions';
-import { updateUser } from '@/features/auth/data/update-user';
-import { getAuthOrRedirect } from '@/features/auth/queries/get-auth-or-redirect';
+import { fromErrorToActionState, toActionState } from '@/components/form/utils';
+import { authMutations } from '@/features/auth/mutations';
+import { authQueries } from '@/features/auth/queries';
+import { validateEmailVerificationCode } from '@/features/auth/utils/validate-email-verification-code';
 import { createSession } from '@/lib/lucia';
 import { homePath } from '@/paths';
 import { generateRandomToken } from '@/utils/crypto';
 import { setSessionCookie } from '../utils/session-cookie';
-import { validateEmailVerificationCode } from '../utils/validate-email-verification-code';
 
 const emailVerificationSchema = z.object({
   code: z.string().length(8),
@@ -22,7 +21,7 @@ export const emailVerification = async (
   _actionState: ActionState,
   formData: FormData
 ) => {
-  const { user } = await getAuthOrRedirect({
+  const { user } = await authQueries.getAuthOrRedirect({
     checkEmailVerified: false,
   });
 
@@ -38,15 +37,15 @@ export const emailVerification = async (
     );
 
     if (!validCode) {
-      return formUtils.toActionState({
+      return toActionState({
         status: 'ERROR',
         message: 'Invalid or expired code',
       });
     }
 
-    await deleteUserSessions({ userId: user.id });
+    await authMutations.deleteUserSessions({ userId: user.id });
 
-    await updateUser({
+    await authMutations.updateUser({
       userId: user.id,
       data: { emailVerified: true },
     });
@@ -56,7 +55,7 @@ export const emailVerification = async (
 
     await setSessionCookie(sessionToken, session.expiresAt);
   } catch (error) {
-    return formUtils.fromErrorToActionState({ error });
+    return fromErrorToActionState({ error });
   }
 
   await setCookieByKey('toast', 'Email verified');

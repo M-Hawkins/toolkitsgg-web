@@ -1,5 +1,5 @@
 import { PageLayout } from '@/components/PageLayout';
-import { getAuth } from '@/features/auth/queries/get-auth';
+import { authQueries } from '@/features/auth/queries';
 
 type AccountProfilePageProps = {
   params: Promise<{ slug: string }>;
@@ -8,7 +8,7 @@ type AccountProfilePageProps = {
 export default async function AccountProfilePage({
   params,
 }: AccountProfilePageProps) {
-  const session = await getAuth();
+  const session = await authQueries.getAuth();
   const user = session?.user;
 
   const { slug } = await params;

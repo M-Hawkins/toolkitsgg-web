@@ -1,3 +1,5 @@
+'use server';
+
 import 'server-only';
 import type { Prisma, Session } from '@prisma/client';
 import { cache } from 'react';

@@ -1,12 +1,12 @@
-import { deleteEmailVerificationTokens } from '@/features/auth/data/delete-email-verification-tokens';
-import { getEmailVerificationToken } from '@/features/auth/queries/get-email-verification-token';
+import { authMutations } from '@/features/auth/mutations';
+import { authQueries } from '@/features/auth/queries';
 
 export const validateEmailVerificationCode = async (
   userId: string,
   email: string,
   code: string
 ) => {
-  const emailVerificationToken = await getEmailVerificationToken({
+  const emailVerificationToken = await authQueries.getEmailVerificationToken({
     userId,
   });
 
@@ -14,7 +14,7 @@ export const validateEmailVerificationCode = async (
     return false;
   }
 
-  await deleteEmailVerificationTokens({
+  await authMutations.deleteEmailVerificationTokens({
     id: emailVerificationToken.id,
   });
 

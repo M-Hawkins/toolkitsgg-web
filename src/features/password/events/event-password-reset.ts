@@ -1,4 +1,4 @@
-import { getUser } from '@/features/auth/queries/get-user';
+import { authQueries } from '@/features/auth/queries';
 import { inngest } from '@/lib/inngest';
 import { sendEmailPasswordReset } from '../emails/send-email-password-reset';
 import { generatePasswordResetLink } from '../utils/generate-password-reset-link';
@@ -15,7 +15,7 @@ export const passwordResetEvent = inngest.createFunction(
   async ({ event }) => {
     const { userId } = event.data;
 
-    const user = await getUser({
+    const user = await authQueries.getUser({
       userId,
     });
 
