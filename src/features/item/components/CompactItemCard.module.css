@@ -75,10 +75,8 @@
     var(--mantine-color-secondary-5),
     var(--mantine-color-secondary-5)
   );
-  line-height: 1;
 }
 
 .itemCategory {
   color: light-dark(var(--mantine-color-white), var(--mantine-color-white));
-  line-height: 1;
 }

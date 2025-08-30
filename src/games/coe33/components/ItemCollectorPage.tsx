@@ -69,7 +69,7 @@ const ItemCollectorPage = () => {
           loading={loading}
         />
       </Box>
-      <Flex wrap="wrap" align="center" justify="center" gap="sm">
+      <Flex wrap="wrap" align="stretch" justify="space-between" gap="sm">
         {items.map((item) => (
           <motion.div
             key={item.slug}
