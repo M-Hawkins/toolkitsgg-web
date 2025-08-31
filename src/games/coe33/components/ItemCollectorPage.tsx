@@ -1,9 +1,9 @@
 'use client';
 
-import { Box, Flex, Stack } from '@mantine/core';
+import { Box, Flex, Skeleton, Stack } from '@mantine/core';
 import { motion } from 'framer-motion';
 import { useQueryState } from 'nuqs';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { searchParser } from '@/app/search-params';
 import { allGameConfigs } from '@/features/game/constants';
 import type { GameConfig } from '@/features/game/types';
@@ -44,6 +44,8 @@ const ItemCollectorPage = () => {
   const defaultItems = gameConfig.items;
 
   const [search, setSearch] = useQueryState('search', searchParser);
+  const [loading, setLoading] = useState(false);
+
   const items = useMemo(
     () => findNewItems(gameConfig?.items ?? [], search, defaultItems),
     [search, defaultItems, gameConfig?.items]
@@ -57,22 +59,27 @@ const ItemCollectorPage = () => {
           items={items}
           searchValue={search}
           onSearchChange={setSearch}
+          onLoadingChange={setLoading}
         />
       </Box>
 
       <Flex wrap="wrap" align="stretch" justify="space-between" gap="sm">
-        {items.map((item) => (
-          <motion.div
-            key={item.slug}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <CompactItemCard
-              item={item}
-              imageSrc={getImageUrl(item.imageUrl, 'coe33')}
-            />
-          </motion.div>
-        ))}
+        {loading
+          ? Array.from({ length: 32 }).map((_, index) => (
+              <Skeleton key={index} height={250} width={150} />
+            ))
+          : items.map((item) => (
+              <motion.div
+                key={item.slug}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <CompactItemCard
+                  item={item}
+                  imageSrc={getImageUrl(item.imageUrl, 'coe33')}
+                />
+              </motion.div>
+            ))}
       </Flex>
     </Stack>
   );

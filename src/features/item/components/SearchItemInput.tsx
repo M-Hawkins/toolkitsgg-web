@@ -1,17 +1,24 @@
-import { Select } from '@mantine/core';
+import { Loader, Select } from '@mantine/core';
+import { useRef, useState } from 'react';
 import type { BaseItemType } from '@/features/item/types';
 
 type SearchItemInputProps<ItemType extends BaseItemType> = {
   items: ItemType[];
   searchValue: string;
   onSearchChange: (query: string) => void;
+  onLoadingChange?: (loading: boolean) => void;
 };
 
 const SearchItemInput = <ItemType extends BaseItemType>({
   items,
   searchValue,
   onSearchChange,
+  onLoadingChange,
 }: SearchItemInputProps<ItemType>) => {
+  const timeoutRef = useRef<number>(-1);
+  const [value, setValue] = useState(searchValue);
+  const [loading, setLoading] = useState(false);
+
   const itemCategories = Array.from(
     new Set(items.map((item) => item.category))
   ).sort();
@@ -26,11 +33,26 @@ const SearchItemInput = <ItemType extends BaseItemType>({
       })),
   }));
 
+  const handleSearchChange = (query: string) => {
+    window.clearTimeout(timeoutRef.current);
+
+    setValue(query);
+    setLoading(true);
+    onLoadingChange?.(true);
+
+    timeoutRef.current = window.setTimeout(() => {
+      onSearchChange(query);
+      setLoading(false);
+      onLoadingChange?.(false);
+    }, 1000);
+  };
+
   return (
     <Select
       searchable
-      searchValue={searchValue}
-      onSearchChange={onSearchChange}
+      searchValue={value}
+      onSearchChange={handleSearchChange}
+      rightSection={loading ? <Loader size={16} /> : null}
       label="Search items"
       placeholder="Search for an item"
       data={data}
