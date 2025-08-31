@@ -35,9 +35,10 @@ const SearchItemInput = <ItemType extends BaseItemType>({
 
   const handleSearchChange = (query: string) => {
     window.clearTimeout(timeoutRef.current);
+    setValue(query);
+
     if (query.trim() === value.trim()) return;
 
-    setValue(query);
     setLoading(true);
     onLoadingChange?.(true);
 

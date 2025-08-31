@@ -67,7 +67,7 @@ const ItemCollectorPage = () => {
         />
       </Box>
 
-      <Flex wrap="wrap" align="stretch" justify="space-between" gap="sm">
+      <Flex wrap="wrap" align="stretch" justify="center" gap="sm">
         {loading
           ? Array.from({ length: 32 }).map((_, index) => (
               <Skeleton key={index} height={250} width={150} />
