@@ -3,7 +3,7 @@
 import { Box, Flex, Stack } from '@mantine/core';
 import { motion } from 'framer-motion';
 import { useQueryState } from 'nuqs';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { allGameConfigs } from '@/features/game/constants';
 import type { GameConfig } from '@/features/game/types';
 import { CompactItemCard } from '@/features/item/components/CompactItemCard';
@@ -32,7 +32,6 @@ const findNewItems = (
 
   return filteredItems;
 };
-
 const ItemCollectorPage = () => {
   const gameConfig = allGameConfigs.find(
     (config): config is GameConfig<COE33ItemType> => config.id === 'coe33'
@@ -45,18 +44,10 @@ const ItemCollectorPage = () => {
   const defaultItems = gameConfig.items;
 
   const [search, setSearch] = useQueryState('search', searchParser);
-  const [loading, setLoading] = useState(false);
-
-  const items = useMemo(() => {
-    setLoading(true);
-    const newItems = findNewItems(
-      gameConfig?.items ?? [],
-      search,
-      defaultItems
-    );
-    setLoading(false);
-    return newItems;
-  }, [gameConfig?.items, search, defaultItems]);
+  const items = useMemo(
+    () => findNewItems(gameConfig?.items ?? [], search, defaultItems),
+    [search, defaultItems, gameConfig?.items]
+  );
 
   return (
     <Stack>
@@ -66,9 +57,9 @@ const ItemCollectorPage = () => {
           items={items}
           searchValue={search}
           onSearchChange={setSearch}
-          loading={loading}
         />
       </Box>
+
       <Flex wrap="wrap" align="stretch" justify="space-between" gap="sm">
         {items.map((item) => (
           <motion.div
