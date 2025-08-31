@@ -4,11 +4,11 @@ import { Box, Flex, Stack } from '@mantine/core';
 import { motion } from 'framer-motion';
 import { useQueryState } from 'nuqs';
 import { useMemo } from 'react';
+import { searchParser } from '@/app/search-params';
 import { allGameConfigs } from '@/features/game/constants';
 import type { GameConfig } from '@/features/game/types';
 import { CompactItemCard } from '@/features/item/components/CompactItemCard';
 import { SearchItemInput } from '@/features/item/components/SearchItemInput';
-import { searchParser } from '@/features/item/search-params';
 import type { COE33ItemType } from '@/games/coe33/items/types';
 import { getImageUrl } from '@/utils/url';
 
