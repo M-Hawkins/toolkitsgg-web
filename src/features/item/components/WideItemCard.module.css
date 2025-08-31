@@ -2,9 +2,9 @@
   background: light-dark(
     linear-gradient(
       0deg,
-      var(--mantine-color-primary-6) 0%,
-      var(--mantine-color-white) 25%,
-      var(--mantine-color-white) 100%
+      var(--mantine-color-primary-2) 0%,
+      var(--mantine-color-gray-1) 25%,
+      var(--mantine-color-gray-3) 100%
     ),
     linear-gradient(
       0deg,

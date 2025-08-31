@@ -24,7 +24,15 @@ const ItemDescription = ({
 }) => {
   if (typeof itemDescription === 'string') {
     return (
-      <Text mt="xs" mb="sm" fz="xs" fw="normal" lh={1.3} lineClamp={3}>
+      <Text
+        mt="xs"
+        mb="sm"
+        fz="xs"
+        fw="normal"
+        lh={1.3}
+        lineClamp={3}
+        className={classes.itemDescription}
+      >
         {itemDescription}
       </Text>
     );
@@ -41,6 +49,7 @@ const ItemDescription = ({
         key={desc}
         lh={1.3}
         lineClamp={3}
+        className={classes.itemDescription}
       >
         {desc}
       </Text>
