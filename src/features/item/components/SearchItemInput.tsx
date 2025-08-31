@@ -1,11 +1,6 @@
 import { Select } from '@mantine/core';
 import type { BaseItemType } from '@/features/item/types';
 
-const itemToData = (item: BaseItemType) => ({
-  label: item.name,
-  value: item.slug,
-});
-
 type SearchItemInputProps<ItemType extends BaseItemType> = {
   items: ItemType[];
   searchValue: string;
@@ -17,7 +12,19 @@ const SearchItemInput = <ItemType extends BaseItemType>({
   searchValue,
   onSearchChange,
 }: SearchItemInputProps<ItemType>) => {
-  const data = items.map(itemToData);
+  const itemCategories = Array.from(
+    new Set(items.map((item) => item.category))
+  ).sort();
+
+  const data = itemCategories.map((category) => ({
+    group: category,
+    items: items
+      .filter((item) => item.category === category)
+      .map((item) => ({
+        label: item.name,
+        value: item.slug,
+      })),
+  }));
 
   return (
     <Select
@@ -28,6 +35,7 @@ const SearchItemInput = <ItemType extends BaseItemType>({
       placeholder="Search for an item"
       data={data}
       nothingFoundMessage="No items found"
+      comboboxProps={{ transitionProps: { transition: 'pop', duration: 200 } }}
     />
   );
 };
