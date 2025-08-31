@@ -24,7 +24,15 @@ const ItemDescription = ({
 }) => {
   if (typeof itemDescription === 'string') {
     return (
-      <Text mt="xs" mb="sm" fz="xs">
+      <Text
+        mt="xs"
+        mb="sm"
+        fz="xs"
+        fw="normal"
+        lh={1.3}
+        lineClamp={3}
+        className={classes.itemDescription}
+      >
         {itemDescription}
       </Text>
     );
@@ -33,7 +41,16 @@ const ItemDescription = ({
   return itemDescription
     .filter((desc) => desc !== '')
     .map((desc) => (
-      <Text mt="xs" mb="sm" fz="xs" key={desc}>
+      <Text
+        mt="xs"
+        mb="sm"
+        fz="xs"
+        fw="normal"
+        key={desc}
+        lh={1.3}
+        lineClamp={3}
+        className={classes.itemDescription}
+      >
         {desc}
       </Text>
     ));

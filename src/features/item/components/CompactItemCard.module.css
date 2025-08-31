@@ -2,15 +2,13 @@
   background: light-dark(
     linear-gradient(
       0deg,
-      var(--mantine-color-primary-6) 0%,
-      var(--mantine-color-primary-5) 15%,
-      var(--mantine-color-primary-4) 29%,
-      var(--mantine-color-white) 30%,
-      var(--mantine-color-white) 100%
+      var(--mantine-color-primary-0) 0%,
+      var(--mantine-color-gray-1) 25%,
+      var(--mantine-color-gray-3) 100%
     ),
     linear-gradient(
       0deg,
-      var(--mantine-color-primary-6) 0%,
+      var(--mantine-color-primary-9) 0%,
       var(--mantine-color-black) 25%,
       var(--mantine-color-black) 100%
     )
@@ -48,8 +46,8 @@
     linear-gradient(
       180deg,
       var(--mantine-color-primary-1) 0%,
-      rgba(255, 255, 255, 0.8) 30%,
-      rgba(255, 255, 255, 0) 100%
+      var(--mantine-color-white) 50%,
+      var(--mantine-color-primary-1) 100%
     ),
     linear-gradient(
       180deg,
@@ -79,6 +77,9 @@
 }
 
 .itemCategory {
-  color: light-dark(var(--mantine-color-white), var(--mantine-color-white));
-  line-height: 1;
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
+}
+
+.itemDescription {
+  color: light-dark(var(--mantine-color-black), var(--mantine-color-white));
 }
