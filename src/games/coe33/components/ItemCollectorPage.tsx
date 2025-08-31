@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, Skeleton, Stack } from '@mantine/core';
+import { Flex, Skeleton, Stack } from '@mantine/core';
 import { motion } from 'framer-motion';
 import { useQueryState } from 'nuqs';
 import { useMemo, useState } from 'react';
@@ -8,7 +8,7 @@ import { searchParser } from '@/app/search-params';
 import { allGameConfigs } from '@/features/game/constants';
 import type { GameConfig } from '@/features/game/types';
 import { CompactItemCard } from '@/features/item/components/CompactItemCard';
-import { SearchItemInput } from '@/features/item/components/SearchItemInput';
+import { ItemCollectorFilters } from '@/features/item/components/ItemCollectorFilters';
 import type { COE33ItemType } from '@/games/coe33/items/types';
 import { getImageUrl } from '@/utils/url';
 
@@ -43,7 +43,7 @@ const ItemCollectorPage = () => {
 
   const defaultItems = gameConfig.items;
 
-  const [search, setSearch] = useQueryState('search', searchParser);
+  const [search] = useQueryState('search', searchParser);
   const [loading, setLoading] = useState(false);
 
   const items = useMemo(
@@ -51,21 +51,9 @@ const ItemCollectorPage = () => {
     [search, defaultItems, gameConfig?.items]
   );
 
-  const handleSearchChange = (value: string) => {
-    setSearch(value.trim());
-  };
-
   return (
     <Stack>
-      <Box maw={600}>
-        <SearchItemInput
-          key={search}
-          items={items}
-          searchValue={search}
-          onSearchChange={handleSearchChange}
-          onLoadingChange={setLoading}
-        />
-      </Box>
+      <ItemCollectorFilters items={defaultItems} onChangeLoading={setLoading} />
 
       <Flex wrap="wrap" align="stretch" justify="center" gap="sm">
         {loading
