@@ -21,7 +21,7 @@ export const sortOptions = {
 
 export const paginationParser = {
   page: parseAsInteger.withDefault(0),
-  size: parseAsInteger.withDefault(8),
+  size: parseAsInteger.withDefault(16),
 };
 
 export const paginationOptions = {
@@ -29,12 +29,12 @@ export const paginationOptions = {
   clearOnDefault: true,
 };
 
-export const searchParamsCache = createSearchParamsCache({
+export const baseSearchParamsCache = createSearchParamsCache({
   search: searchParser,
   ...sortParser,
   ...paginationParser,
 });
 
 export type ParsedSearchParams = Awaited<
-  ReturnType<typeof searchParamsCache.parse>
+  ReturnType<typeof baseSearchParamsCache.parse>
 >;

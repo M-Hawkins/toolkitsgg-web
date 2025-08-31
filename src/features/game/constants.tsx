@@ -1,4 +1,5 @@
 import type { GameId } from '@prisma/client';
+import { baseSearchParamsCache } from '@/app/search-params';
 import { DefaultLogo, type LogoSize } from '@/components/Logo';
 import type { GameConfig } from '@/features/game/types';
 import type { BaseItemType } from '@/features/item/types';
@@ -14,6 +15,7 @@ export const noGameConfig: GameConfig<undefined> = {
   themeDefinition: undefined,
   items: undefined,
   dataUtils: undefined,
+  searchParamsCache: baseSearchParamsCache,
   pages: undefined,
 };
 
