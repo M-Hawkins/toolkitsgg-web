@@ -51,6 +51,10 @@ const ItemCollectorPage = () => {
     [search, defaultItems, gameConfig?.items]
   );
 
+  const handleSearchChange = (value: string) => {
+    setSearch(value.trim());
+  };
+
   return (
     <Stack>
       <Box maw={600}>
@@ -58,7 +62,7 @@ const ItemCollectorPage = () => {
           key={search}
           items={items}
           searchValue={search}
-          onSearchChange={setSearch}
+          onSearchChange={handleSearchChange}
           onLoadingChange={setLoading}
         />
       </Box>
