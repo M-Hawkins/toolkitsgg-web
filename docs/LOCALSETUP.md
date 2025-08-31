@@ -190,6 +190,10 @@ pnpm db-seed
 
 This will populate your database via the [seed script](../src/lib/prisma/seed.ts)
 
+## Making contributions
+
+If you would like to contribute to the project, please read the [CONTRIBUTING.md](../.github/CONTRIBUTING.md) file for guidelines on how to contribute.
+
 ## Tips and Troubleshooting
 
 TODO
