@@ -5,8 +5,8 @@ import { revalidatePath } from 'next/cache';
 import type { ActionState } from '@/components/form/types';
 import { fromErrorToActionState, toActionState } from '@/components/form/utils';
 import { authQueries } from '@/features/auth/queries';
-import { validateItemSlug } from '@/features/collection/utils/validate-item-slug';
 import { gameUtils } from '@/features/game/utils';
+import { validateItemSlug } from '@/features/item/utils/validate-item-slug';
 
 export const toggleCollectedItem = async (
   gameId: GameId,

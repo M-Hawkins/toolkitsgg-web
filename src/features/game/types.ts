@@ -1,4 +1,5 @@
 import type { GameId } from '@prisma/client';
+import type { createSearchParamsCache } from 'nuqs/server';
 import type React from 'react';
 import type { LogoSize } from '@/components/Logo';
 import type { ToolkitThemeDefinition } from '@/features/theme/types';
@@ -49,6 +50,9 @@ export type GameConfig<ItemType> = {
 
   /* Utility functions for interacting with the data layer **/
   dataUtils: GameDataUtils | undefined;
+
+  /* Search param parsing with nuqs */
+  searchParamsCache: ReturnType<typeof createSearchParamsCache> | undefined;
 
   // TODO: Enable builds a different way, like with items
   buildsEnabled?: boolean;

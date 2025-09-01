@@ -13,6 +13,7 @@ import {
   itemLookupPath,
   resourcesPath,
 } from '@/games/coe33/paths';
+import { coe33SearchParamsCache } from '@/games/coe33/search-params';
 import {
   coe33Theme,
   coe33ThemeDeuteranopia,
@@ -27,6 +28,8 @@ export const coe33Config: GameConfig<COE33ItemType> = {
   path: coe33Path(),
 
   dataUtils: coe33DataUtils,
+
+  searchParamsCache: coe33SearchParamsCache,
 
   pages: {
     home: {

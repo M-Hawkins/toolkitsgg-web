@@ -2,7 +2,6 @@
 
 import {
   Button,
-  Dialog,
   Flex,
   type MantineColorScheme,
   Select,
@@ -14,6 +13,7 @@ import { IconPalette } from '@tabler/icons-react';
 import { useAtom } from 'jotai';
 import { useTheme as useNextTheme } from 'next-themes';
 import { useEffect, useMemo, useState } from 'react';
+import { AppModal } from '@/components/AppModal';
 import { mantineThemeAtom } from '@/features/theme/atoms';
 import {
   accentThemeDefinitions,
@@ -23,7 +23,8 @@ import {
 import { themeUtils } from '@/features/theme/utils';
 
 const ThemeChanger = () => {
-  const [dialogOpen, { toggle, close }] = useDisclosure(false);
+  const [modalOpen, { toggle: toggleModal, close: closeModal }] =
+    useDisclosure(false);
 
   const { colorScheme: _colorScheme, setColorScheme } = useMantineColorScheme();
 
@@ -102,19 +103,22 @@ const ThemeChanger = () => {
   return (
     <>
       <Tooltip label="Change theme settings">
-        <Button onClick={toggle} aria-label="Theme settings" variant="light">
+        <Button
+          onClick={toggleModal}
+          aria-label="Theme settings"
+          variant="light"
+        >
           <IconPalette />
         </Button>
       </Tooltip>
-      <Dialog
-        opened={dialogOpen}
-        withCloseButton
-        onClose={close}
-        size="lg"
+      <AppModal
+        opened={modalOpen}
+        title="Change theme"
+        onClose={closeModal}
+        size="md"
         radius="md"
-        bg="var(--mantine-color-card-bg-5)"
-        bd="1px solid var(--mantine-color-border-6)"
-        position={{ bottom: 0, left: 0 }}
+        centered
+        withCloseButton
       >
         <Flex
           align="center"
@@ -167,7 +171,7 @@ const ThemeChanger = () => {
             />
           </Flex>
         </Flex>
-      </Dialog>
+      </AppModal>
     </>
   );
 };

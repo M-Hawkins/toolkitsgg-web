@@ -1,39 +1,61 @@
 'use client';
 
-import { Flex } from '@mantine/core';
-import { motion } from 'framer-motion';
+import { Stack } from '@mantine/core';
+import { useQueryState } from 'nuqs';
+import { useMemo, useState } from 'react';
+import { searchParser } from '@/app/search-params';
 import { allGameConfigs } from '@/features/game/constants';
 import type { GameConfig } from '@/features/game/types';
-import { CompactItemCard } from '@/features/item/components/CompactItemCard';
+import { ItemCollectorFilters } from '@/features/item/components/ItemCollectorFilters';
+import { ItemGrid } from '@/features/item/components/ItemGrid';
 import type { COE33ItemType } from '@/games/coe33/items/types';
-import { getImageUrl } from '@/utils/url';
 
+const findNewItems = (
+  items: COE33ItemType[],
+  query: string,
+  defaultItems: COE33ItemType[]
+): COE33ItemType[] => {
+  if (!query) {
+    return defaultItems;
+  }
+
+  const filteredItems = items
+    ?.filter((item) =>
+      item.name.toLowerCase().includes(query.trim().toLowerCase())
+    )
+    .filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.slug === item.slug)
+    );
+
+  return filteredItems;
+};
 const ItemCollectorPage = () => {
   const gameConfig = allGameConfigs.find(
     (config): config is GameConfig<COE33ItemType> => config.id === 'coe33'
   );
 
-  if (!gameConfig) {
+  if (!gameConfig || !gameConfig.items) {
     throw new Error('Game configuration not found for COE33!');
   }
 
+  const defaultItems = gameConfig.items;
+
+  const [search] = useQueryState('search', searchParser);
+  const [loading, setLoading] = useState(false);
+
+  const items = useMemo(
+    () => findNewItems(gameConfig?.items ?? [], search, defaultItems),
+    [search, defaultItems, gameConfig?.items]
+  );
+
   return (
-    <Flex wrap="wrap" align="center" justify="center" gap="sm">
-      {gameConfig.items
-        ?.filter((item) => item.category === 'WEAPON')
-        .map((item) => (
-          <motion.div
-            key={item.slug}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <CompactItemCard
-              item={item}
-              imageSrc={getImageUrl(item.imageUrl, 'coe33')}
-            />
-          </motion.div>
-        ))}
-    </Flex>
+    <Stack>
+      <ItemCollectorFilters items={defaultItems} onChangeLoading={setLoading}>
+        TODO
+      </ItemCollectorFilters>
+      <ItemGrid items={items} loading={loading} />
+    </Stack>
   );
 };
 

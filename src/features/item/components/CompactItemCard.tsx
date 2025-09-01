@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Image, Stack, Text } from '@mantine/core';
+import { Box, Card, Image, Stack, Text } from '@mantine/core';
 import NextImage from 'next/image';
 import type { BaseItemType } from '@/features/item/types';
 import classes from './CompactItemCard.module.css';
@@ -15,12 +15,12 @@ type ImageProps =
       imageContent: React.ReactNode;
     };
 
-export type ItemCardItemType = BaseItemType;
+export type CompactItemCardItemType = BaseItemType;
 
 const ItemDescription = ({
   itemDescription,
 }: {
-  itemDescription: ItemCardItemType['description'];
+  itemDescription: CompactItemCardItemType['description'];
 }) => {
   if (typeof itemDescription === 'string') {
     return (
@@ -57,12 +57,12 @@ const ItemDescription = ({
 };
 
 export type ItemCardProps = {
-  item: ItemCardItemType;
+  item: CompactItemCardItemType;
 } & ImageProps;
 
 const CompactItemCard = ({ item, imageSrc, imageContent }: ItemCardProps) => {
   return (
-    <Card withBorder radius="md" w="180px" h="auto" className={classes.card}>
+    <Card withBorder radius="md" w="180px" h="100%" className={classes.card}>
       <Card.Section className={classes.imageContainer}>
         {imageSrc && (
           <Image
@@ -77,27 +77,33 @@ const CompactItemCard = ({ item, imageSrc, imageContent }: ItemCardProps) => {
         {imageContent}
       </Card.Section>
       <Stack
-        w="100%"
-        display="flex"
         justify="flex-start"
-        align="flex-start"
+        align="stretch"
         px="xs"
         py="sm"
         gap={4}
+        style={{ flex: 1 }}
       >
-        <Text
-          fz="md"
-          fw="bolder"
-          ta="left"
-          lineClamp={2}
-          className={classes.itemName}
-        >
-          {item.name}
-        </Text>
-        <Text fz="xs" fw="bold" className={classes.itemCategory}>
-          {item.category}
-        </Text>
-        <ItemDescription itemDescription={item.description} />
+        <Box h={48} mah={48}>
+          <Text
+            fz="md"
+            fw="bolder"
+            ta="left"
+            lh={1}
+            mb={4}
+            lineClamp={2}
+            className={classes.itemName}
+          >
+            {item.name}
+          </Text>
+
+          <Text fz="xs" fw="bold" lh={1.1} className={classes.itemCategory}>
+            {item.category}
+          </Text>
+        </Box>
+        <Box style={{ flex: 1, overflowY: 'auto' }}>
+          <ItemDescription itemDescription={item.description} />
+        </Box>
       </Stack>
     </Card>
   );
