@@ -4,7 +4,6 @@ import {
   Button,
   Flex,
   type MantineColorScheme,
-  Modal,
   Select,
   Tooltip,
   useMantineColorScheme,
@@ -14,6 +13,7 @@ import { IconPalette } from '@tabler/icons-react';
 import { useAtom } from 'jotai';
 import { useTheme as useNextTheme } from 'next-themes';
 import { useEffect, useMemo, useState } from 'react';
+import { AppModal } from '@/components/AppModal';
 import { mantineThemeAtom } from '@/features/theme/atoms';
 import {
   accentThemeDefinitions,
@@ -21,7 +21,6 @@ import {
   themeModes,
 } from '@/features/theme/constants';
 import { themeUtils } from '@/features/theme/utils';
-import classes from './ThemeChanger.module.css';
 
 const ThemeChanger = () => {
   const [modalOpen, { toggle: toggleModal, close: closeModal }] =
@@ -112,7 +111,7 @@ const ThemeChanger = () => {
           <IconPalette />
         </Button>
       </Tooltip>
-      <Modal
+      <AppModal
         opened={modalOpen}
         title="Change theme"
         onClose={closeModal}
@@ -120,10 +119,6 @@ const ThemeChanger = () => {
         radius="md"
         centered
         withCloseButton
-        classNames={{
-          header: classes.modalHeader,
-          content: classes.modal,
-        }}
       >
         <Flex
           align="center"
@@ -176,7 +171,7 @@ const ThemeChanger = () => {
             />
           </Flex>
         </Flex>
-      </Modal>
+      </AppModal>
     </>
   );
 };
