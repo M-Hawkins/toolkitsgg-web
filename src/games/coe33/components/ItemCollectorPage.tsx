@@ -1,6 +1,6 @@
 'use client';
 
-import { Flex, Stack } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import { useQueryState } from 'nuqs';
 import { useMemo, useState } from 'react';
 import { searchParser } from '@/app/search-params';
@@ -52,10 +52,7 @@ const ItemCollectorPage = () => {
   return (
     <Stack>
       <ItemCollectorFilters items={defaultItems} onChangeLoading={setLoading} />
-
-      <Flex wrap="wrap" align="stretch" justify="center" gap="sm">
-        <ItemGrid items={items} loading={loading} />
-      </Flex>
+      <ItemGrid items={items} loading={loading} />
     </Stack>
   );
 };
