@@ -1,16 +1,14 @@
 'use client';
 
-import { Flex, Skeleton, Stack } from '@mantine/core';
-import { motion } from 'framer-motion';
+import { Flex, Stack } from '@mantine/core';
 import { useQueryState } from 'nuqs';
 import { useMemo, useState } from 'react';
 import { searchParser } from '@/app/search-params';
 import { allGameConfigs } from '@/features/game/constants';
 import type { GameConfig } from '@/features/game/types';
-import { CompactItemCard } from '@/features/item/components/CompactItemCard';
 import { ItemCollectorFilters } from '@/features/item/components/ItemCollectorFilters';
+import { ItemGrid } from '@/features/item/components/ItemGrid';
 import type { COE33ItemType } from '@/games/coe33/items/types';
-import { getImageUrl } from '@/utils/url';
 
 const findNewItems = (
   items: COE33ItemType[],
@@ -56,22 +54,7 @@ const ItemCollectorPage = () => {
       <ItemCollectorFilters items={defaultItems} onChangeLoading={setLoading} />
 
       <Flex wrap="wrap" align="stretch" justify="center" gap="sm">
-        {loading
-          ? Array.from({ length: 32 }).map((_, index) => (
-              <Skeleton key={index} height={250} width={150} />
-            ))
-          : items.map((item) => (
-              <motion.div
-                key={item.slug}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <CompactItemCard
-                  item={item}
-                  imageSrc={getImageUrl(item.imageUrl, 'coe33')}
-                />
-              </motion.div>
-            ))}
+        <ItemGrid items={items} loading={loading} />
       </Flex>
     </Stack>
   );
