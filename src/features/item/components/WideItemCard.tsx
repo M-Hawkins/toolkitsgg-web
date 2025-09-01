@@ -16,12 +16,12 @@ type ImageProps =
       imageContent: React.ReactNode;
     };
 
-export type ItemCardItemType = BaseItemType;
+export type WideItemCardItemType = BaseItemType;
 
 const ItemDescription = ({
   itemDescription,
 }: {
-  itemDescription: ItemCardItemType['description'];
+  itemDescription: WideItemCardItemType['description'];
 }) => {
   if (typeof itemDescription === 'string') {
     return (
@@ -41,7 +41,7 @@ const ItemDescription = ({
 };
 
 export type ItemCardProps = {
-  item: ItemCardItemType;
+  item: WideItemCardItemType;
 } & ImageProps;
 
 const WideItemCard = ({ item, imageSrc, imageContent }: ItemCardProps) => {

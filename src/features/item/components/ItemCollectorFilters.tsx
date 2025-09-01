@@ -9,15 +9,15 @@ import type { BaseItemType } from '@/features/item/types';
 
 // TODO: Implement filters dialog
 
-type ItemCollectorFiltersProps<T extends BaseItemType> = {
+type ItemCollectorFiltersProps<ItemType extends BaseItemType> = {
   onChangeLoading: (loading: boolean) => void;
-  items: T[];
+  items: ItemType[];
 };
 
-const ItemCollectorFilters = <T extends BaseItemType>({
+const ItemCollectorFilters = <ItemType extends BaseItemType>({
   onChangeLoading,
   items,
-}: ItemCollectorFiltersProps<T>) => {
+}: ItemCollectorFiltersProps<ItemType>) => {
   const [search, setSearch] = useQueryState('search', searchParser);
 
   const handleSearchChange = (value: string) => {
