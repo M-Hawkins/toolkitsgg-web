@@ -51,7 +51,9 @@ const ItemCollectorPage = () => {
 
   return (
     <Stack>
-      <ItemCollectorFilters items={defaultItems} onChangeLoading={setLoading} />
+      <ItemCollectorFilters items={defaultItems} onChangeLoading={setLoading}>
+        TODO
+      </ItemCollectorFilters>
       <ItemGrid items={items} loading={loading} />
     </Stack>
   );
