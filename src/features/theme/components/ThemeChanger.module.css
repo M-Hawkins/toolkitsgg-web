@@ -1,0 +1,10 @@
+.modal {
+  background-color: var(--mantine-color-card-bg-5);
+  border: 1px solid var(--mantine-color-border-6);
+}
+
+.modalHeader {
+  background-color: var(--mantine-color-card-bg-5);
+  border-bottom: 1px solid var(--mantine-color-border-6);
+  margin-bottom: var(--mantine-spacing-md);
+}

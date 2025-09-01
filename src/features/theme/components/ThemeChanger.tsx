@@ -2,9 +2,9 @@
 
 import {
   Button,
-  Dialog,
   Flex,
   type MantineColorScheme,
+  Modal,
   Select,
   Tooltip,
   useMantineColorScheme,
@@ -21,9 +21,10 @@ import {
   themeModes,
 } from '@/features/theme/constants';
 import { themeUtils } from '@/features/theme/utils';
+import classes from './ThemeChanger.module.css';
 
 const ThemeChanger = () => {
-  const [dialogOpen, { toggle, close }] = useDisclosure(false);
+  const [modalOpen, { toggle, close }] = useDisclosure(false);
 
   const { colorScheme: _colorScheme, setColorScheme } = useMantineColorScheme();
 
@@ -106,15 +107,19 @@ const ThemeChanger = () => {
           <IconPalette />
         </Button>
       </Tooltip>
-      <Dialog
-        opened={dialogOpen}
+      <Modal
+        opened={modalOpen}
         withCloseButton
+        title="Change theme"
         onClose={close}
-        size="lg"
+        size="md"
         radius="md"
-        bg="var(--mantine-color-card-bg-5)"
-        bd="1px solid var(--mantine-color-border-6)"
-        position={{ bottom: 0, left: 0 }}
+        className={classes.modal}
+        centered
+        classNames={{
+          header: classes.modalHeader,
+          content: classes.modal,
+        }}
       >
         <Flex
           align="center"
@@ -167,7 +172,7 @@ const ThemeChanger = () => {
             />
           </Flex>
         </Flex>
-      </Dialog>
+      </Modal>
     </>
   );
 };
