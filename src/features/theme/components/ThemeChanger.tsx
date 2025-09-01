@@ -24,7 +24,8 @@ import { themeUtils } from '@/features/theme/utils';
 import classes from './ThemeChanger.module.css';
 
 const ThemeChanger = () => {
-  const [modalOpen, { toggle, close }] = useDisclosure(false);
+  const [modalOpen, { toggle: toggleModal, close: closeModal }] =
+    useDisclosure(false);
 
   const { colorScheme: _colorScheme, setColorScheme } = useMantineColorScheme();
 
@@ -103,19 +104,22 @@ const ThemeChanger = () => {
   return (
     <>
       <Tooltip label="Change theme settings">
-        <Button onClick={toggle} aria-label="Theme settings" variant="light">
+        <Button
+          onClick={toggleModal}
+          aria-label="Theme settings"
+          variant="light"
+        >
           <IconPalette />
         </Button>
       </Tooltip>
       <Modal
         opened={modalOpen}
-        withCloseButton
         title="Change theme"
-        onClose={close}
+        onClose={closeModal}
         size="md"
         radius="md"
-        className={classes.modal}
         centered
+        withCloseButton
         classNames={{
           header: classes.modalHeader,
           content: classes.modal,
