@@ -46,7 +46,7 @@ const SearchItemInput = <ItemType extends BaseItemType>({
       onSearchChange(query);
       setLoading(false);
       onLoadingChange?.(false);
-    }, 1000);
+    }, 500);
   };
 
   return (
